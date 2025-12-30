@@ -2,74 +2,37 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Input Nama Pemain</title>
-  <style>
-    body {
-      font-family: Arial;
-      text-align: center;
-      background: #111;
-      color: white;
-    }
-    input, select, button {
-      font-size: 20px;
-      margin: 10px;
-      padding: 10px;
-      width: 80%;
-    }
-    button {
-      background: #00ff88;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+  <title>Input Nama</title>
 </head>
-
 <body>
-  <h2>Masukkan Nama Pemain</h2>
+  <h2>Masukkan Nama</h2>
 
-  <input id="name" placeholder="Nama kamu" required>
-
+  <input id="nama" placeholder="Nama"><br><br>
   <select id="gender">
     <option value="L">Laki-laki</option>
     <option value="P">Perempuan</option>
-  </select>
+  </select><br><br>
 
-  <button onclick="kirim()">Mulai Game</button>
+  <button onclick="kirim()">Mulai</button>
 
-  <p id="status"></p>
+  <script>
+    const SCRIPT_URL = "PASTE_URL_EXEC_DI_SINI";
 
-<script>
-const API = "https://script.google.com/macros/s/AKfycbx6VFNS397dfn6o2Lk228azbVacEiN4qntpteT3KCKkcwsVwsmpKAKFSpV4aQ_DpRvO/exec";
+    function kirim() {
+      const nama = document.getElementById("nama").value;
+      const gender = document.getElementById("gender").value;
 
-function kirim() {
-  const name = document.getElementById("name").value;
-  const gender = document.getElementById("gender").value;
-
-  if(name === ""){
-    alert("Nama tidak boleh kosong");
-    return;
-  }
-
-  fetch(API, {
-    method: "POST",
-    body: JSON.stringify({
-      name: name,
-      gender: gender,
-      score: 0,
-      time: 0
-    })
-  })
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("status").innerText =
-      "Nama berhasil dikirim. Silakan main!";
-  })
-  .catch(err => {
-    document.getElementById("status").innerText =
-      "Gagal mengirim data";
-  });
-}
-</script>
-
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          name: nama,
+          gender: gender
+        })
+      })
+      .then(r => r.json())
+      .then(d => alert("Nama terkirim, silakan main"))
+      .catch(e => alert("GAGAL kirim data"));
+    }
+  </script>
 </body>
 </html>
