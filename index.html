@@ -1,45 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Input Nama Game</title>
-</head>
 <body>
-  <h2>Masukkan Nama</h2>
+<h2>Input Nama</h2>
+<form>
+<input id="name" placeholder="Nama"><br>
+<select id="gender">
+<option value="L">Laki-laki</option>
+<option value="P">Perempuan</option>
+</select><br>
+<button type="button" onclick="send()">Submit</button>
+</form>
 
-  <input id="nama" placeholder="Nama"><br><br>
+<script>
+const session = new URLSearchParams(window.location.search).get("session");
 
-  <select id="gender">
-    <option value="L">Laki-laki</option>
-    <option value="P">Perempuan</option>
-  </select><br><br>
+function send() {
+  const n = document.getElementById("name").value;
+  const g = document.getElementById("gender").value;
 
-  <button onclick="kirim()">Kirim</button>
-
-  <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyq3IMIbtub92-cJZ93BeYw5HKdlIktYQ_9Y7RJM-bCjqqyAg08GUEzu5SzbFQuRyDyKQ/exec";
-
-    function kirim() {
-      const nama = document.getElementById("nama").value;
-      const gender = document.getElementById("gender").value;
-      const session = Date.now();
-
-      fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({
-          action: "register",
-          name: nama,
-          gender: gender,
-          session: session
-        })
-      })
-      .then(() => {
-        alert("Nama berhasil dikirim. Silakan tekan tombol di alat.");
-      })
-      .catch(() => {
-        alert("Gagal mengirim data");
-      });
-    }
-  </script>
+  fetch(`https://script.google.com/macros/s/AKfycbybYFJrjFeDa7dUtpuTygzTlUU5JHiULMvu3BkNvSeCbLBW52nUDbd5yFccTbjS0ahGPg/exec?mode=nama&session=${session}&name=${n}&gender=${g}`)
+  .then(()=>alert("Nama terkirim"));
+}
+</script>
 </body>
 </html>
