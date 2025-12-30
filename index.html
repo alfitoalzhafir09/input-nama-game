@@ -2,36 +2,43 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Input Nama</title>
+  <title>Input Nama Game</title>
 </head>
 <body>
   <h2>Masukkan Nama</h2>
 
   <input id="nama" placeholder="Nama"><br><br>
+
   <select id="gender">
     <option value="L">Laki-laki</option>
     <option value="P">Perempuan</option>
   </select><br><br>
 
-  <button onclick="kirim()">Mulai</button>
+  <button onclick="kirim()">Kirim</button>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzJft2aSNWr5uc0xilRE67_nToJm0bSH0rsqgEQVVYlwOOrPyRhoLQadVv75Q5eXUi6Mg/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyq3IMIbtub92-cJZ93BeYw5HKdlIktYQ_9Y7RJM-bCjqqyAg08GUEzu5SzbFQuRyDyKQ/exec";
 
     function kirim() {
       const nama = document.getElementById("nama").value;
       const gender = document.getElementById("gender").value;
+      const session = Date.now();
 
       fetch(SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify({
+          action: "register",
           name: nama,
-          gender: gender
+          gender: gender,
+          session: session
         })
       })
-      .then(r => r.json())
-      .then(d => alert("Nama terkirim, silakan main"))
-      .catch(e => alert("GAGAL kirim data"));
+      .then(() => {
+        alert("Nama berhasil dikirim. Silakan tekan tombol di alat.");
+      })
+      .catch(() => {
+        alert("Gagal mengirim data");
+      });
     }
   </script>
 </body>
