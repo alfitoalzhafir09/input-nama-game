@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <title>Input Nama Game</title>
+</head>
 <body>
-<h2>Input Nama</h2>
-<form>
-<input id="name" placeholder="Nama"><br>
-<select id="gender">
-<option value="L">Laki-laki</option>
-<option value="P">Perempuan</option>
-</select><br>
-<button type="button" onclick="send()">Submit</button>
-</form>
+  <h2>Masukkan Nama</h2>
+
+  <input id="name" placeholder="Nama"><br><br>
+
+  <select id="gender">
+    <option value="L">Laki-laki</option>
+    <option value="P">Perempuan</option>
+  </select><br><br>
+
+  <button onclick="kirim()">KIRIM</button>
+
+  <p id="status"></p>
 
 <script>
-const session = new URLSearchParams(window.location.search).get("session");
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx9lQQhYZ63zj50qqWLLVr59y83q2BBTqm_z3ezl11BSo0SKjsSRgyuX04b9evXj0S40Q/exec";
 
-function send() {
-  const n = document.getElementById("name").value;
-  const g = document.getElementById("gender").value;
+const params = new URLSearchParams(window.location.search);
+const session = params.get("session");
 
-  fetch(`https://script.google.com/macros/s/AKfycbybYFJrjFeDa7dUtpuTygzTlUU5JHiULMvu3BkNvSeCbLBW52nUDbd5yFccTbjS0ahGPg/exec?mode=nama&session=${session}&name=${n}&gender=${g}`)
-  .then(()=>alert("Nama terkirim"));
+function kirim() {
+  const name = document.getElementById("name").value;
+  const gender = document.getElementById("gender").value;
+
+  fetch(`${SCRIPT_URL}?mode=input&session=${session}&name=${name}&gender=${gender}`)
+    .then(r => r.text())
+    .then(res => {
+      if (res === "OK") {
+        document.getElementById("status").innerText = "BERHASIL DIKIRIM";
+      } else {
+        document.getElementById("status").innerText = "GAGAL";
+      }
+    });
 }
 </script>
 </body>
